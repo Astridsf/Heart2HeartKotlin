@@ -3,54 +3,40 @@ package com.example.heart2heartnavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Map
-import androidx.compose.material.icons.outlined.Public
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.heart2heartnavigation.components.BottomNavBar
+import com.example.heart2heartnavigation.data.User
+import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
+
+//MainActivity sørger for at forbinde ViewModel med resten af appen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-
-
-
-
+            // 1. Vi opretter viewmodel-objektet
+            val navVM = viewModel<NavigationViewModel>()
             val navController = rememberNavController()
             var currentScreen by remember { mutableStateOf("home-screen") }
+            val userData = User()
 
-            Column(modifier = Modifier.fillMaxSize()){
+            Column(modifier = Modifier.fillMaxSize()) {
                 Text(
                     text = "Heart2Heart",
                     fontSize = 45.sp,
@@ -60,407 +46,43 @@ class MainActivity : ComponentActivity() {
                         .padding(top = 60.dp)
                 )
 
+                /*Når du trykker på tilbage-knappen, går den igennem hvert stykke papir ét ad gangen.
+                Så du skulle trykke tilbage mange gange for at komme ud af appen.
+                launchSingleTop forhindrer kun dubletter hvis den skærm allerede ligger øverst.
+                */
+
+                // 2. Herinde skifter vi mellem de 4 skærme
                 NavHost(
                     navController = navController,
                     startDestination = "home-screen",
-                    Modifier.weight(1f)
-                ){
+                    modifier = Modifier.weight(1f) // Dette gør at NavHost fylder pladsen ud
+                ) {
                     composable("home-screen") {
-                        HomeScreen(
-                            "benjamin",
-                            currentScreen = currentScreen,
-                            onScreen1ButtonClick = {
-                                //currentScreen = "home-screen"
-                                navController.navigate("home-screen")//{launchSingleTop = true}
-
-                            },
-                            onScreen2ButtonClick = {
-                                //currentScreen = "2"
-                                navController.navigate("screen-2")
-
-                            },
-                            onScreen3ButtonClick = {
-                                currentScreen = "3"
-                                navController.navigate("screen-3")
-
-                            },
-                            onScreen4ButtonClick = {
-                                currentScreen = "4"
-                                navController.navigate("screen-4")
-
-                            }
+                        Text(
+                            "Velkommen, ${userData.name}!",
+                            fontSize = 24.sp
                         )
                     }
-                    composable("screen-2") {
-                        Screen2(
-                            "screen 2",
-                            currentScreen = currentScreen,
-                            onScreen1ButtonClick = {
-                                currentScreen = "home-screen"
-                                navController.navigate("home-screen") {launchSingleTop = true}
+                    composable("screen-2") { Text("Her er kortet", fontSize = 24.sp) }
+                    composable("screen-3") { Text("Community her", fontSize = 24.sp) }
+                    composable("screen-4") { Text("Din profil", fontSize = 24.sp) }
+                }
 
-                            },
-                            onScreen2ButtonClick = {
-                                currentScreen = "2"
-                                navController.navigate("screen-2") {launchSingleTop = true}
+                // 3. Menuen kaldes
+                BottomNavBar(
+                    // Vi læser skærmen direkte fra navVM (vores ViewModel)
+                    current = navVM.currentScreen,
+                    onTabClick = { valgteRute ->
+                        // RETTELSE: Vi kalder changeScreen (ikke currentScreen)
+                        navVM.changeScreen(valgteRute)
 
-                            },
-                            onScreen3ButtonClick = {
-                                currentScreen = "3"
-                                navController.navigate("screen-3")
-
-                            },
-                            onScreen4ButtonClick = {
-                                currentScreen = "4"
-                                navController.navigate("screen-4")
-
-                            }
-                        )
+                        navController.navigate(valgteRute) {
+                            launchSingleTop = true
+                        }
                     }
-                    composable("screen-3") {
-                        Screen3(
-                            "benjamin",
-                            currentScreen = currentScreen,
-                            onScreen1ButtonClick = {
-                                currentScreen = "home-screen"
-                                navController.navigate("home-screen") {launchSingleTop = true}
-
-                            },
-                            onScreen2ButtonClick = {
-                                currentScreen = "2"
-                                navController.navigate("screen-2")
-
-                            },
-                            onScreen3ButtonClick = {
-                                currentScreen = "3"
-                                navController.navigate("screen-3") {launchSingleTop = true}
-
-                            },
-                            onScreen4ButtonClick = {
-                                currentScreen = "4"
-                                navController.navigate("screen-4")
-
-                            }
-                        )
-                    }
-                    composable("screen-4") {
-                        Screen4(
-                            "benjamin",
-                            currentScreen = currentScreen,
-                            onScreen1ButtonClick = {
-                                currentScreen = "home-screen"
-                                navController.navigate("home-screen") {launchSingleTop = true}
-
-                            },
-                            onScreen2ButtonClick = {
-                                currentScreen = "2"
-                                navController.navigate("screen-2")
-
-                            },
-                            onScreen3ButtonClick = {
-                                currentScreen = "3"
-                                navController.navigate("screen-3")
-
-                            },
-                            onScreen4ButtonClick = {
-                                currentScreen = "4"
-                                navController.navigate("screen-4") {launchSingleTop = true}
-
-                            }
-                        )
-                    }
-
-                }
-
-
-            }
-
-
-        }
-    }
-}
-
-
-
-@Composable
-fun HomeScreen(
-    name: String,
-    currentScreen: String,
-    onScreen2ButtonClick: () -> Unit,
-    onScreen3ButtonClick: () -> Unit,
-    onScreen4ButtonClick: () -> Unit,
-    onScreen1ButtonClick: () -> Unit
-) {
-    Column (modifier = Modifier
-        .fillMaxSize())
-    {
-        Column(modifier = Modifier
-            .weight(1f)){
-        Text(
-            text = "Screen 1",
-            fontSize = 32.sp
-        )
-        Text(
-            text = "Hello $name!"
-        )
-
-        }
-        Row (modifier = Modifier
-            .padding(bottom = 16.dp)
-            .background(Color.Red)
-            .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Bottom)
-
-        {
-
-                val pink = Color(0xFFE91E8C)
-                val grey = Color(0xFF9E9E9E)
-
-                IconButton(onClick = onScreen1ButtonClick) {
-                    Icon(
-                        imageVector = Icons.Outlined.Favorite,
-                        contentDescription = "Home",
-                        tint = if (currentScreen == "home-screen") pink else grey,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-
-                IconButton(onClick = onScreen2ButtonClick) {
-                    Icon(
-                        imageVector = Icons.Outlined.Map,
-                        contentDescription = "Map",
-                        tint = if (currentScreen == "2") pink else grey,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-
-                IconButton(onClick = onScreen3ButtonClick) {
-                    Icon(
-                        imageVector = Icons.Outlined.Public,
-                        contentDescription = "Community",
-                        tint = if (currentScreen == "3") pink else grey,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-
-                IconButton(onClick = onScreen4ButtonClick) {
-                    Icon(
-                        imageVector = Icons.Outlined.Person,
-                        contentDescription = "Profil",
-                        tint = if (currentScreen == "4") pink else grey,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
-        }
-    }
-
-
-@Composable
-fun Screen2( name: String,
-             currentScreen: String,
-             onScreen2ButtonClick: () -> Unit,
-             onScreen3ButtonClick: () -> Unit,
-             onScreen4ButtonClick: () -> Unit,
-             onScreen1ButtonClick: () -> Unit
-) {
-    Column (modifier = Modifier
-        .fillMaxSize())
-    {
-        Column(modifier = Modifier
-            .weight(1f)){
-            Text(
-                text = "Screen 2",
-                fontSize = 32.sp
-            )
-            Text(
-                text = "Hello $name!"
-            )
-        }
-        Row (modifier = Modifier
-            .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Bottom)
-        {
-
-            val pink = Color(0xFFE91E8C)
-            val grey = Color(0xFF9E9E9E)
-
-            IconButton(onClick = onScreen1ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Favorite,
-                    contentDescription = "Home",
-                    tint = if (currentScreen == "home-screen") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen2ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Map,
-                    contentDescription = "Map",
-                    tint = if (currentScreen == "2") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen3ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Public,
-                    contentDescription = "Community",
-                    tint = if (currentScreen == "3") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen4ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Person,
-                    contentDescription = "Profil",
-                    tint = if (currentScreen == "4") pink else grey,
-                    modifier = Modifier.size(24.dp)
                 )
             }
         }
     }
 }
 
-
-@Composable
-fun Screen3( name: String,
-             currentScreen: String,
-             onScreen2ButtonClick: () -> Unit,
-             onScreen3ButtonClick: () -> Unit,
-             onScreen4ButtonClick: () -> Unit,
-             onScreen1ButtonClick: () -> Unit
-) {
-    Column (modifier = Modifier
-        .fillMaxSize())
-    {
-        Column(modifier = Modifier
-            .weight(1f)){
-            Text(
-                text = "Screen 3",
-                fontSize = 32.sp
-            )
-            Text(
-                text = "Hello $name!"
-            )
-        }
-        Row (modifier = Modifier
-            .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Bottom)
-        {
-
-            val pink = Color(0xFFE91E8C)
-            val grey = Color(0xFF9E9E9E)
-
-            IconButton(onClick = onScreen1ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Favorite,
-                    contentDescription = "Home",
-                    tint = if (currentScreen == "home-screen") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen2ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Map,
-                    contentDescription = "Map",
-                    tint = if (currentScreen == "2") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen3ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Public,
-                    contentDescription = "Community",
-                    tint = if (currentScreen == "3") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen4ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Person,
-                    contentDescription = "Profil",
-                    tint = if (currentScreen == "4") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
-    }
-}
-
-
-@Composable
-fun Screen4( name: String,
-             currentScreen: String,
-             onScreen2ButtonClick: () -> Unit,
-             onScreen3ButtonClick: () -> Unit,
-             onScreen4ButtonClick: () -> Unit,
-             onScreen1ButtonClick: () -> Unit
-) {
-    Column (modifier = Modifier
-        .fillMaxSize())
-    {
-        Column(modifier = Modifier
-            .weight(1f)){
-            Text(
-                text = "Screen 4",
-                fontSize = 32.sp
-            )
-            Text(
-                text = "Hello $name!"
-            )
-        }
-        Row (modifier = Modifier
-            .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Bottom)
-        {
-            val pink = Color(0xFFE91E8C)
-            val grey = Color(0xFF9E9E9E)
-
-            IconButton(onClick = onScreen1ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Favorite,
-                    contentDescription = "Home",
-                    tint = if (currentScreen == "home-screen") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen2ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Map,
-                    contentDescription = "Map",
-                    tint = if (currentScreen == "2") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen3ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Public,
-                    contentDescription = "Community",
-                    tint = if (currentScreen == "3") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            IconButton(onClick = onScreen4ButtonClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Person,
-                    contentDescription = "Profil",
-                    tint = if (currentScreen == "4") pink else grey,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
-    }
-}
