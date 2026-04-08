@@ -1,4 +1,4 @@
-package com.example.heart2heartnavigation.components
+package com.example.heart2heartnavigation.ui.theme.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
