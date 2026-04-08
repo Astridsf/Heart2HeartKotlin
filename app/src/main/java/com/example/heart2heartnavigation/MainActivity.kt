@@ -37,6 +37,14 @@ class MainActivity : ComponentActivity() {
             val userData = User()
 
             Column(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    text = "Heart2Heart",
+                    fontSize = 45.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 60.dp)
+                )
 
                 /*Når du trykker på tilbage-knappen, går den igennem hvert stykke papir ét ad gangen.
                 Så du skulle trykke tilbage mange gange for at komme ud af appen.
@@ -51,16 +59,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable("home-screen") {
                         Text(
-                            "Heart2Heart",
-                            fontSize = 45.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 80.dp)
+                            "Velkommen, ${userData.name}!",
+                            fontSize = 24.sp
                         )
                     }
-
-                    composable("screen-3") {""}
+                    composable("screen-2") { Text("Her er kortet", fontSize = 24.sp) }
+                    composable("screen-3") { Text("Community her", fontSize = 24.sp) }
                     composable("screen-4") { Text("Din profil", fontSize = 24.sp) }
                 }
 
