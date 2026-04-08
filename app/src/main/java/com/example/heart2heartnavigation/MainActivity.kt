@@ -21,7 +21,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.heart2heartnavigation.data.User
-import com.example.heart2heartnavigation.ui.components.ProfileScreen
 import com.example.heart2heartnavigation.ui.theme.components.BottomNavBar
 import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
 
@@ -64,10 +63,9 @@ class MainActivity : ComponentActivity() {
                             fontSize = 24.sp
                         )
                     }
-                    composable("Community") {
-                        Text("Community her", fontSize = 24.sp) }
-                    composable("Profile") {
-                        ProfileScreen() }
+                    composable("screen-2") { Text("Her er kortet", fontSize = 24.sp) }
+                    composable("screen-3") { Text("Community her", fontSize = 24.sp) }
+                    composable("screen-4") { Text("Din profil", fontSize = 24.sp) }
                 }
 
                 // 3. Menuen kaldes
