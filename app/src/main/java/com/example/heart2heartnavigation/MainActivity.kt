@@ -20,8 +20,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.heart2heartnavigation.components.BottomNavBar
 import com.example.heart2heartnavigation.data.User
+import com.example.heart2heartnavigation.ui.theme.components.BottomNavBar
 import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
 
 //MainActivity sørger for at forbinde ViewModel med resten af appen

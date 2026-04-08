@@ -38,16 +38,6 @@ fun BottomNavBar(current: String, onTabClick: (String) -> Unit) {
             )
         }
 
-        // 2. MAP (Kort)
-        IconButton(onClick = { onTabClick("screen-2") }) {
-            Icon(
-                imageVector = Icons.Outlined.Map,
-                contentDescription = "Map",
-                tint = if (current == "screen-2") pink else grey,
-                modifier = Modifier.size(36.dp)
-            )
-        }
-
         // 3. COMMUNITY (Globus)
         IconButton(onClick = { onTabClick("screen-3") }) {
             Icon(
