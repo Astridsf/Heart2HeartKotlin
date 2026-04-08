@@ -6,3 +6,7 @@ package com.example.heart2heartnavigation.data
 data class User(
     val name: String = "Benjamin"
 )
+
+data class Profile(
+    val name: String = "Anna Solbjerg Jensen"
+)
