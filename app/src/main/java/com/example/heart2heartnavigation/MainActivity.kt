@@ -24,6 +24,7 @@ import com.example.heart2heartnavigation.data.User
 import com.example.heart2heartnavigation.ui.components.Posts
 import com.example.heart2heartnavigation.ui.theme.components.BottomNavBar
 import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
+import com.example.heart2heartnavigation.ui.components.HomeScreen
 
 //MainActivity sørger for at forbinde ViewModel med resten af appen
 
@@ -38,14 +39,6 @@ class MainActivity : ComponentActivity() {
             val userData = User()
 
             Column(modifier = Modifier.fillMaxSize()) {
-                Text(
-                    text = "Heart2Heart",
-                    fontSize = 45.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 60.dp)
-                )
 
                 /*Når du trykker på tilbage-knappen, går den igennem hvert stykke papir ét ad gangen.
                 Så du skulle trykke tilbage mange gange for at komme ud af appen.
@@ -59,9 +52,31 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.weight(1f) // Dette gør at NavHost fylder pladsen ud
                 ) {
                     composable("home-screen") {
-                        Text(
-                            "Velkommen, ${userData.name}!",
-                            fontSize = 24.sp
+                        HomeScreen(
+                            goDetails = {
+                                navVM.changeScreen("details-screen")
+                                navController.navigate("details-screen") {
+                                    launchSingleTop = true
+                                }
+                            },
+                            goMap = {
+                                navVM.changeScreen("screen-2")
+                                navController.navigate("screen-2") {
+                                    launchSingleTop = true
+                                }
+                            },
+                            goCommunity = {
+                                navVM.changeScreen("screen-3")
+                                navController.navigate("screen-3") {
+                                    launchSingleTop = true
+                                }
+                            },
+                            goProfile = {
+                                navVM.changeScreen("screen-4")
+                                navController.navigate("screen-4") {
+                                    launchSingleTop = true
+                                }
+                            }
                         )
                     }
                     composable("screen-3") { Posts() }
