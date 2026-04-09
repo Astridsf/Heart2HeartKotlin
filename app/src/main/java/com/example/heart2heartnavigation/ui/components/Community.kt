@@ -25,62 +25,101 @@ import com.example.heart2heartnavigation.data.PostData
 import com.example.heart2heartnavigation.ui.theme.Purple80
 import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
 
+
 @Composable
 fun Header(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean
 ) {
+    val backgroundColor = if (darkMode) Color.Black else Color.White
+
+    Column(
+        modifier = Modifier
+            .background(backgroundColor)
+            .padding(top = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Community",
+            fontSize = 35.sp,
+            color = pink,
+            modifier = Modifier
+                .padding(top = 40.dp, bottom = 10.dp),
+        )
+
     Row(
     modifier = modifier
         .fillMaxWidth()
-        .background(Color.White)
-        .padding(vertical = 12.dp),
+        .background(backgroundColor)
+        .padding(top = 16.dp, bottom = 12.dp),
     horizontalArrangement = Arrangement.SpaceEvenly,
     verticalAlignment = Alignment.CenterVertically
 ) {
-        Button(onClick = {},
+        Button(
+            onClick = {},
             colors = ButtonDefaults.buttonColors
-                (containerColor = Color.Gray)
+                (containerColor = pink)
         ) {
             Text("Heart-venner", fontSize = 12.sp)
         }
-        Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)) {
+        Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = pink)) {
             Text("Lokation", fontSize = 12.sp)
         }
-        Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)) {
+        Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = pink)) {
             Text("Sted/Type", fontSize = 12.sp)
         }
+    }
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth(),
+            thickness = 1.dp,
+            color = pink
+        )
     }
 }
 
 
 @Composable
-fun Posts(viewModel: NavigationViewModel) {
+fun Posts(
+    viewModel: NavigationViewModel,
+    darkMode: Boolean
+) {
 
     val posts = viewModel.postList
+    val darkMode = viewModel.darkMode
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
 
     ) {
         stickyHeader {
-            Header()
+            Header(darkMode = darkMode)
         }
 
         items(posts) { post ->
-            PostCard(postData = post)
+            PostCard(postData = post, darkMode = darkMode)
         }
     }
 }
 
 @Composable
-fun PostCard(postData: PostData){
+fun PostCard(
+    postData: PostData,
+    darkMode: Boolean
+){
+    val textColor = if (darkMode) Color.White else Color.Black
+    val secondaryTextColor = if (darkMode) Color.LightGray else Color.DarkGray
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 8.dp),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(
+            containerColor = if (darkMode) Color(0xFF1E1E1E) else Color.White, // Mørkegrå i dark mode
+            contentColor = textColor
+        )
     ) {
         Column(modifier = Modifier
             .padding(12.dp)) {
@@ -94,8 +133,8 @@ fun PostCard(postData: PostData){
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
-                    Text(postData.userName, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-                    Text(postData.location, fontSize = 11.sp, color = Color.Gray)
+                    Text(postData.userName, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = textColor)
+                    Text(postData.location, fontSize = 11.sp, color = textColor)
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -110,9 +149,9 @@ fun PostCard(postData: PostData){
 
             Row {
                 Text("Tryghedsscore: ", fontWeight = FontWeight.Bold)
-                Text(postData.safetyScore, color = Purple80, fontWeight = FontWeight.Bold)
+                Text(postData.safetyScore, color = pink, fontWeight = FontWeight.Bold)
             }
-            Text(text = postData.description, fontSize = 14.sp, color = Color.DarkGray)
+            Text(text = postData.description, fontSize = 14.sp, color = textColor)
         }
     }
 }
@@ -120,151 +159,3 @@ fun PostCard(postData: PostData){
 
 
 
-
-
-
-
-/*
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-        ) {
-            // User info row
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 8.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = postData.profilePictureRes),
-                    contentDescription = postData.userName,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(40.dp)
-                        .border(1.3.dp, Purple80, CircleShape)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Column() { Text(
-                    text = postData.userName,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-                    Text(
-                        text = postData.location,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Normal
-                    )
-                }
-            }
-
-            // Post image
-            Image(
-                painter = painterResource(id = postData.postImageRes),
-                contentDescription = "Post image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Safety score row
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 4.dp)
-            ) { Text(
-                text = "Tryghedsscore: ",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-                Text(
-                    text = postData.safetyScore,
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Purple80
-                )
-            }
-
-            // Description
-            Text(
-                text = postData.description,
-                fontSize = 14.sp,
-                color = Color.Gray,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-        }
-    }
-}
-@Composable
-fun Posts() {
-    val posts = listOf(
-        PostData(
-            userName = "Astrid Sofie Falkenberg",
-            profilePictureRes = R.drawable.astridsf,
-            location = "Nørrebro",
-            postImageRes = R.drawable.minas,
-            safetyScore = "4,7",
-            description = "Det var en af de aftener, hvor København føltes som en varm, indbydende omfavnelse. Vi mødtes ved Minas Kaffebar, hvor duften af friskmalet kaffe og nybagte kanelsnegle straks satte stemningen. Vi snuppede et hjørnebord ved vinduet, hvor vi kunne se Nørrebrogades liv udfolde sig – cykler, der susede forbi, studerende med bøger under armen, og de evige diskussioner om, hvor man skulle tage hen efter kaffen."
-        ),
-        PostData(
-            userName = "Frederikke",
-            profilePictureRes = R.drawable.heart,
-            location = "indsæt noget",
-            postImageRes = R.drawable.vega,
-            safetyScore = "4,9",
-            description = "Another description..."
-        ),
-        PostData(
-            userName = "Frederikke",
-            profilePictureRes = R.drawable.heart,
-            location = "indsæt noget",
-            postImageRes = R.drawable.vega,
-            safetyScore = "4,9",
-            description = "Another description..."
-        ),
-        PostData(
-            userName = "Frederikke",
-            profilePictureRes = R.drawable.heart,
-            location = "indsæt noget",
-            postImageRes = R.drawable.vega,
-            safetyScore = "4,9",
-            description = "Another description..."
-        ),
-        PostData(
-            userName = "Frederikke",
-            profilePictureRes = R.drawable.heart,
-            location = "indsæt noget",
-            postImageRes = R.drawable.vega,
-            safetyScore = "4,9",
-            description = "Another description..."
-        )
-    )
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        stickyHeader {
-            Header(
-                modifier = Modifier.background(Color.White)
-            )
-        }
-        items(posts) { post ->
-            Post(postData = post)
-        }
-    }
-}
-
- */

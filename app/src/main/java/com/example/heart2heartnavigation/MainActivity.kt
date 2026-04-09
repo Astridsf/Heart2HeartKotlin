@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("home-screen") {
                             HomeScreen(
+                                darkMode = navigationViewModel.darkMode,
                                 goDetails = {
                                     navigationViewModel.changeScreen("details-screen")
                                     navController.navigate("details-screen") {
@@ -89,7 +90,10 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("screen-3") {
                             Column(modifier = Modifier.fillMaxSize()) {
-                                Posts(viewModel = navigationViewModel)
+                                Posts(
+                                    viewModel = navigationViewModel,
+                                    darkMode = navigationViewModel.darkMode
+                                    )
                             }
                         }
                         composable("screen-4") {

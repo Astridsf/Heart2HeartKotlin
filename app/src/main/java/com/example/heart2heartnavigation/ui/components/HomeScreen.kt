@@ -35,120 +35,109 @@ import com.example.heart2heartnavigation.ui.components.H2HDivider
 
 @Composable
 fun HomeScreen(
+    darkMode: Boolean,
     goDetails: () -> Unit,
     goMap: () -> Unit,
     goCommunity: () -> Unit,
     goProfile: () -> Unit
 ) {
+    val backgroundColor = if (darkMode) Color.Black else Color.White
+    val textColor = if (darkMode) Color.White else Color.Black
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(backgroundColor)
+            .verticalScroll(rememberScrollState())
+            .padding(top = 40.dp, bottom = 20.dp), // Lidt luft i top og bund
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
+        // 1. Logo i toppen
+        Image(
+            painter = painterResource(id = R.drawable.heart2heart),
+            contentDescription = "H2H logo",
             modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .width(280.dp)
+                .padding(vertical = 20.dp)
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 2. Det store hjerte
+        Image(
+            painter = painterResource(id = R.drawable.heart),
+            contentDescription = "Heart logo",
+            modifier = Modifier.size(220.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // 3. Status række (Bluetooth & Batteri)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(30.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.heart2heart),
-                contentDescription = "H2H logo",
-                modifier = Modifier
-                    .size(350.dp)
-                    .width(291.dp)
-                    .height(74.dp)
-                    .padding(bottom = 33.dp)
-                    .offset(y = (-30).dp)
-
-
-
-            )
-            Spacer(modifier = Modifier.height(1.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.heart),
-                contentDescription = "Heart logo",
-                modifier = Modifier
-                    .size(206.dp)
-                    .width(206.dp)
-                    .height(206.dp)
-                    .offset(y = (-150).dp)
-
-
-            )
-            Spacer(modifier = Modifier
-
-                .offset(y = (-20).dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Bluetooth,
-                        contentDescription = "Bluetooth",
-                        tint = pink,
-                        modifier = Modifier.size(22.dp)
-                            .offset(y = (-140).dp)
-
-                    )
-
-                    Text(
-
-                        text = "Connected",
-                        fontSize = 14.sp,
-                        modifier = Modifier
-                            .offset(y = (-140).dp)
-                    )
-
-                }
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(0.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Battery6Bar,
-                        contentDescription = "Battery",
-                        tint = pink,
-                        modifier = Modifier.size(22.dp)
-                            .offset(y = (-140).dp)
-                    )
-
-                    Text(
-                        text = "64%",
-                        fontSize = 14.sp,
-                        modifier = Modifier
-                            .offset(y = (-140).dp)
-                    )
-                }
+            // Bluetooth del
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Outlined.Bluetooth,
+                    contentDescription = "Bluetooth",
+                    tint = pink,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "Connected",
+                    fontSize = 14.sp,
+                    color = textColor.copy(alpha = 0.7f) // Lidt dæmpet tekst som på billedet
+                )
             }
 
-            H2HButton(
-                text = "Disconnect",
-                onClick = goDetails,
-                modifier = Modifier.padding(bottom = 57.dp)
-            )
-
-            H2HDivider(
-                modifier = Modifier.padding(bottom = 53.dp, start = 35.dp, end = 35.dp)
-            )
-
-            H2HButton(
-                text = "Activate Level 1",
-                onClick = goProfile
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-
-            H2HButton(
-                text = "Activate Level 2",
-                onClick = goProfile
-            )
+            // Batteri del
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Outlined.Battery6Bar,
+                    contentDescription = "Battery",
+                    tint = pink,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "64%",
+                    fontSize = 14.sp,
+                    color = textColor.copy(alpha = 0.7f)
+                )
+            }
         }
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        // 4. Disconnect knap
+        H2HButton(
+            text = "Disconnect",
+            onClick = goDetails
+        )
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        // 5. Skillelinje
+        H2HDivider(
+            modifier = Modifier.padding(horizontal = 40.dp)
+        )
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        // 6. Level knapper
+        H2HButton(
+            text = "Activate Level 1",
+            onClick = goProfile
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        H2HButton(
+            text = "Activate Level 2",
+            onClick = goProfile
+        )
     }
 }

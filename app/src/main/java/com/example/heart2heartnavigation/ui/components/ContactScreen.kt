@@ -37,6 +37,7 @@ import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
 import androidx.compose.foundation.lazy.items
 
 
+
 @Composable
 fun LayoutContact(name: String, phoneNumber: String){
     Surface(
