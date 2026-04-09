@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -23,8 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.heart2heartnavigation.R
-import com.example.heart2heartnavigation.ui.components.H2HButton
-import com.example.heart2heartnavigation.ui.components.H2HDivider
+
 @Composable
 fun HomeScreen(
     goDetails: () -> Unit,
@@ -48,51 +44,35 @@ fun HomeScreen(
                 contentDescription = "H2H logo",
                 modifier = Modifier
                     .size(350.dp)
-                    .width(291.dp)
-                    .height(74.dp)
-                    .padding(bottom = 33.dp)
-                    .offset(y = (-30).dp)
-
-
-
+                    .offset(x = 25.dp, y = -80.dp)
             )
-            Spacer(modifier = Modifier.height(1.dp))
 
             Image(
                 painter = painterResource(id = R.drawable.heart),
                 contentDescription = "Heart logo",
                 modifier = Modifier
-                    .size(206.dp)
-                    .width(206.dp)
-                    .height(206.dp)
-                    .offset(y = (-150).dp)
-
-
+                    .size(200.dp)
+                    .offset(x = 40.dp, y = -180.dp)
             )
 
-            Spacer(modifier = Modifier.width(9.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Spacer(modifier = Modifier.height(20.dp))
 
-            H2HButton(
-                text = "Disconnect",
-                onClick = goDetails,
-                modifier = Modifier.padding(bottom = 57.dp)
-            )
+            Button(onClick = goDetails) {
+                Text("Disconnect")
+            }
 
-            H2HDivider(
-                modifier = Modifier.padding(bottom = 53.dp, start = 35.dp, end = 35.dp)
-            )
-
-            H2HButton(
-                text = "Activate Level 1",
-                onClick = goProfile
-            )
             Spacer(modifier = Modifier.height(12.dp))
 
-            H2HButton(
-                text = "Activate Level 2",
-                onClick = goProfile
-            )
+            Button(onClick = goProfile) {
+                Text("Activate Level 1")
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Button(onClick = goProfile) {
+                Text("Activate Level 2")
+            }
         }
     }
 }
