@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,11 +21,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.heart2heartnavigation.data.PostData
 import com.example.heart2heartnavigation.data.User
-import com.example.heart2heartnavigation.ui.components.Posts
+import com.example.heart2heartnavigation.ui.components.Header
 import com.example.heart2heartnavigation.ui.theme.components.BottomNavBar
 import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
 import com.example.heart2heartnavigation.ui.components.HomeScreen
+import com.example.heart2heartnavigation.ui.components.Post
+import com.example.heart2heartnavigation.ui.components.Posts
 
 //MainActivity sørger for at forbinde ViewModel med resten af appen
 
@@ -79,7 +83,16 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable("screen-3") { Posts() }
+                    composable("screen-3") {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            Header(
+                                button1Text = "Heart-venner",
+                                button2Text = "Lokation",
+                                button3Text = "Sted/Type"
+                                )
+                        Posts()
+                        }
+                    }
                     composable("screen-4") { Text("Din profil", fontSize = 24.sp) }
                 }
 

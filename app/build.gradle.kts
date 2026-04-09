@@ -58,5 +58,5 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.6.0")
     implementation("androidx.compose.ui:ui-tooling-preview:1.6.0")
     implementation(libs.androidx.material.icons.extended)
-
+    implementation("com.google.accompanist:accompanist-pager:0.36.0")
 }
