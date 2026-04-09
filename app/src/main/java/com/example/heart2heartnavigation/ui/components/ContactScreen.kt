@@ -4,13 +4,17 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -30,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
+import androidx.compose.foundation.lazy.items
 
 
 @Composable
@@ -38,7 +43,8 @@ fun LayoutContact(name: String, phoneNumber: String){
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .padding(horizontal = 8.dp, vertical = 20.dp)
-            .shadow(4.dp, RoundedCornerShape(15.dp)),
+            .shadow(4.dp, RoundedCornerShape(15.dp))
+        ,
         shape = RoundedCornerShape(15.dp),
         color = Color.White
     ){
@@ -53,6 +59,24 @@ fun LayoutContact(name: String, phoneNumber: String){
     }
 }
 
+@Composable
+fun AddButton(){
+    Button(onClick = {},
+        modifier = Modifier
+            .size(70.dp)
+            .padding(top=7.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = pink),
+        contentPadding = PaddingValues(0.dp)
+
+        ){
+        Icon(
+            imageVector = Icons.Default.Add, // Det tynde plus
+            contentDescription = null,
+            modifier = Modifier.size(200.dp), // Her styrer du selve plussets størrelse
+            tint = Color.White
+        )
+    }
+}
 
 @Composable
 fun ContactScreen(
@@ -75,13 +99,22 @@ fun ContactScreen(
                     .padding(top = 80.dp, bottom = 32.dp),
             )
 
-            viewModel.contactList.forEach { contacts ->
-                LayoutContact(
-                    name = contacts.name,
-                    phoneNumber = contacts.phoneNumber
-                )
-        }
-
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                contentPadding = PaddingValues(bottom = 40.dp) // Giver luft i bunden af listen
+            ) {
+                items(viewModel.contactList) { contacts ->
+                    LayoutContact(
+                        name = contacts.name,
+                        phoneNumber = contacts.phoneNumber
+                    )
+                }
+                item {
+                    AddButton()
+                }
+            }
         }
         IconButton(onClick = { onBackClick() },
             modifier = Modifier

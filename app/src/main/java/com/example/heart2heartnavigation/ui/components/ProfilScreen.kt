@@ -12,10 +12,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Favorite
@@ -40,7 +43,7 @@ import com.example.heart2heartnavigation.R
 import com.example.heart2heartnavigation.data.ReviewItem
 import com.example.heart2heartnavigation.data.UserProfil
 
-val pink = Color(0xFFE91E8C)
+val pink = Color(0xFFFF77B7)
 
 @Composable
 fun ButtonLayout(text: String, onClick: () -> Unit) {
@@ -74,20 +77,17 @@ fun ProfileImage() {
     )
 }
 
+
 @Composable
 fun ReviewCard(imageRes: Int, modifier: Modifier = Modifier) {
-    Card(
+    Image(
+        painter = painterResource(id = imageRes),
+        contentDescription = null,
         modifier = modifier
-            .width(150.dp)
-            .height(150.dp),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Image(
-            painter = painterResource(id = imageRes),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
+            .size(150.dp)
+            .clip(RoundedCornerShape(8.dp)), // Bløde hjørner,
+        contentScale = androidx.compose.ui.layout.ContentScale.Crop
+    )
 }
 
 @Composable
@@ -105,7 +105,8 @@ fun ProfileScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -161,7 +162,8 @@ fun ProfileScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = pink),
                 modifier = Modifier
                     .fillMaxWidth(0.4f)
-                    .padding(bottom = 22.dp)
+                    .padding(bottom = 40.dp)
+
             ) {
                 Text("Opret Review", color = Color.White)
             }
@@ -220,7 +222,9 @@ fun ProfileScreen(
                             text = item.reviewText,
                             color = pink,
                             fontSize = 14.sp,
-                            modifier = Modifier.width(150.dp)
+                            modifier = Modifier
+                                .size(150.dp)
+                                .border(1.dp, pink, RoundedCornerShape(12.dp))
                         )
                     }
                 }
