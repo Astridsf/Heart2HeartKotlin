@@ -4,7 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.heart2heartnavigation.R
 import com.example.heart2heartnavigation.data.Contacts
+import com.example.heart2heartnavigation.data.PostData
 import com.example.heart2heartnavigation.data.Settings
 import com.example.heart2heartnavigation.data.userProfil
 import com.example.heart2heartnavigation.data.annaReviewList
@@ -48,6 +50,50 @@ class NavigationViewModel: ViewModel() {
     fun changeDarkMode() {
         darkMode = !darkMode
     }
+
+    //community opslagsliste
+    val postList = listOf(
+        PostData(
+            userName = "Astrid Sofie Falkenberg",
+            profilePictureRes = R.drawable.astridsf,
+            location = "Nørrebro",
+            postImageRes = R.drawable.minas,
+            safetyScore = "4,7",
+            description = "Det var en af de aftener, hvor København føltes som en varm, indbydende omfavnelse. Vi mødtes ved Minas Kaffebar, hvor duften af friskmalet kaffe og nybagte kanelsnegle straks satte stemningen. Vi snuppede et hjørnebord ved vinduet, hvor vi kunne se Nørrebrogades liv udfolde sig – cykler, der susede forbi, studerende med bøger under armen, og de evige diskussioner om, hvor man skulle tage hen efter kaffen."
+        ),
+        PostData(
+            userName = "Frederikke",
+            profilePictureRes = R.drawable.heart,
+            location = "indsæt noget",
+            postImageRes = R.drawable.vega,
+            safetyScore = "4,9",
+            description = "Another description..."
+        ),
+        PostData(
+            userName = "Frederikke",
+            profilePictureRes = R.drawable.heart,
+            location = "indsæt noget",
+            postImageRes = R.drawable.vega,
+            safetyScore = "4,9",
+            description = "Another description..."
+        ),
+        PostData(
+            userName = "Frederikke",
+            profilePictureRes = R.drawable.heart,
+            location = "indsæt noget",
+            postImageRes = R.drawable.vega,
+            safetyScore = "4,9",
+            description = "Another description..."
+        ),
+        PostData(
+            userName = "Frederikke",
+            profilePictureRes = R.drawable.heart,
+            location = "indsæt noget",
+            postImageRes = R.drawable.vega,
+            safetyScore = "4,9",
+            description = "Another description..."
+        )
+    )
 
 }
 

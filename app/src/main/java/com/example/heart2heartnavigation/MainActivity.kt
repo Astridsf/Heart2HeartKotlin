@@ -89,12 +89,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("screen-3") {
                             Column(modifier = Modifier.fillMaxSize()) {
-                                Header(
-                                    button1Text = "Heart-venner",
-                                    button2Text = "Lokation",
-                                    button3Text = "Sted/Type"
-                                )
-                                Posts()
+                                Posts(viewModel = navigationViewModel)
                             }
                         }
                         composable("screen-4") {
