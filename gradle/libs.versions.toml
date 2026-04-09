@@ -12,6 +12,8 @@ navigationCompose = "2.9.7"
 material3 = "1.4.0"
 foundationLayout = "1.10.6"
 foundation = "1.10.6"
+firebaseFirestoreKtx = "26.1.2"
+firebaseDatabaseKtx = "22.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
