@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BottomNavBar(current: String, onTabClick: (String) -> Unit) {
-    val pink = Color(0xFFE91E8C)
+    val pink = Color(0xFFFF77B7)
     val grey = Color(0xFF9E9E9E)
 
     Row(
