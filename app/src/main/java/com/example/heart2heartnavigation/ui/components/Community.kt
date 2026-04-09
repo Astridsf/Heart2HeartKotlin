@@ -1,33 +1,15 @@
 package com.example.heart2heartnavigation.ui.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi // Vigtig for stickyHeader
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,73 +23,109 @@ import androidx.compose.ui.unit.sp
 import com.example.heart2heartnavigation.R
 import com.example.heart2heartnavigation.data.PostData
 import com.example.heart2heartnavigation.ui.theme.Purple80
-import com.google.accompanist.pager.rememberPagerState
+import com.example.heart2heartnavigation.viewmodel.NavigationViewModel
+
 @Composable
 fun Header(
-    button1Text: String = "Button 1",
-    button2Text: String = "Button 2",
-    button3Text: String = "Button 3",
-    onButton1Click: () -> Unit = {},
-    onButton2Click: () -> Unit = {},
-    onButton3Click: () -> Unit = {},
     modifier: Modifier = Modifier
-) { Column() {
-    Image(
-        painter = painterResource(id = R.drawable.heart2heart),
-        contentDescription = "H2H logo",
-        modifier = Modifier
-            .wrapContentSize(Alignment.Center)
-    )
-
+) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.Center)
-            .padding(10.dp)
-    ) {
-
-        Button(
-            onClick = onButton1Click,
-            modifier = Modifier
-                .padding(end = 7.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+    modifier = modifier
+        .fillMaxWidth()
+        .background(Color.White)
+        .padding(vertical = 12.dp),
+    horizontalArrangement = Arrangement.SpaceEvenly,
+    verticalAlignment = Alignment.CenterVertically
+) {
+        Button(onClick = {},
+            colors = ButtonDefaults.buttonColors
+                (containerColor = Color.Gray)
         ) {
-            Text(
-                text = button1Text,
-                fontSize = 13.sp
-            )
+            Text("Heart-venner", fontSize = 12.sp)
         }
-
-        Button(
-            onClick = onButton2Click,
-            modifier = Modifier
-                .padding(horizontal = 7.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
-        ) {
-            Text(
-                text = button2Text,
-                fontSize = 13.sp
-            )
+        Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)) {
+            Text("Lokation", fontSize = 12.sp)
         }
-
-        Button(
-            onClick = onButton3Click,
-            modifier = Modifier
-                .padding(start = 7.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
-        ) {
-            Text(
-                text = button3Text,
-                fontSize = 13.sp
-            )
+        Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)) {
+            Text("Sted/Type", fontSize = 12.sp)
         }
     }
 }
-}
 
 
 @Composable
-fun Post(postData: PostData) {
+fun Posts(viewModel: NavigationViewModel) {
+
+    val posts = viewModel.postList
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+
+    ) {
+        stickyHeader {
+            Header()
+        }
+
+        items(posts) { post ->
+            PostCard(postData = post)
+        }
+    }
+}
+
+@Composable
+fun PostCard(postData: PostData){
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(modifier = Modifier
+            .padding(12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = postData.profilePictureRes),
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp).clip(CircleShape)
+                        .border(1.5.dp, Purple80, CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Column {
+                    Text(postData.userName, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    Text(postData.location, fontSize = 11.sp, color = Color.Gray)
+                }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Image(
+                painter = painterResource(id = postData.postImageRes),
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth().height(200.dp).clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row {
+                Text("Tryghedsscore: ", fontWeight = FontWeight.Bold)
+                Text(postData.safetyScore, color = Purple80, fontWeight = FontWeight.Bold)
+            }
+            Text(text = postData.description, fontSize = 14.sp, color = Color.DarkGray)
+        }
+    }
+}
+
+
+
+
+
+
+
+
+/*
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -238,8 +256,15 @@ fun Posts() {
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
     ) {
+        stickyHeader {
+            Header(
+                modifier = Modifier.background(Color.White)
+            )
+        }
         items(posts) { post ->
             Post(postData = post)
         }
     }
 }
+
+ */
