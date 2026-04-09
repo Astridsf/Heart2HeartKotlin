@@ -48,7 +48,7 @@ fun LayoutContact(name: String, phoneNumber: String){
         shape = RoundedCornerShape(15.dp),
         color = Color.White
     ){
-        Column(modifier = Modifier
+        Column(moifier = Modifier
             .padding(16.dp),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(8.dp) //Giver luft mellem navn og nummer
