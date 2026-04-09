@@ -23,7 +23,7 @@ fun H2HButton(
         onClick = onClick,
         shape = RoundedCornerShape(100.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFFE91E8C)   // ← DIN FARVE
+            containerColor = pink // ← DIN FARVE
         ),
         modifier = modifier
             .requiredWidth(152.dp)
